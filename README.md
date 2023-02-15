@@ -23,7 +23,6 @@ Will need Ints (numbers trying to be guessed and compared), strings (to read wha
 D
 
 Will use a while statement for looping (while guessedNumber = false, keep guessing until true)
-Or maybe a switch statement? 
 Use if statements to compare if guessed number is correct
 uppercase string input from user
 randomNumberGenerator to make sure max is 1024
