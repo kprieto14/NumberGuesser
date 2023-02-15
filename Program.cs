@@ -42,40 +42,41 @@ namespace NumberGuesser
     static void Main(string[] args)
     {
       //Starts the program with a greeting to let the user know its purpose and read their response
-      //Greeting();
+      Greeting();
       
-      //Creates a starting point to guess numbers, asking user if it's their number
-      var maxGuessNumber = 1024;
-      var startingGuessNumber = 512;
-
+      //Creates two new lists to keep track of. The first list will keep track of the minimum and maximum value. The 2nd list keeps track of the guessed numbers to count later.
+      var minMaxValueNumbers = new List<int>() {1, 1024};
       var guessedNumbers = new List<int>();
-
-      Console.WriteLine($"Is the number you're thinking {startingGuessNumber}?");
-      Console.WriteLine("Please enter HIGHER, if the number you're thinking of is higher then {randomNumber}, LOWER if if is lower than {randomNumber}, or CORRECT if I am right: ");
 
       //Start of formula to guess person's number
       bool nextUserCommand = false;
       while (nextUserCommand == false)
       {
+        //Formula that calculates a new number to guess
+        var newGuessNumber = (minMaxValueNumbers[0] + minMaxValueNumbers[1]) / 2;
+
+        Console.WriteLine($"Is the number you're thinking {newGuessNumber}?");
+        Console.Write($"Please enter HIGHER, if the number you're thinking of is higher then {newGuessNumber}, LOWER if it is lower than {newGuessNumber}, or CORRECT if I am right: ");
         //Reads the user input and turns it into all caps to be matched to if statements
         var otherUserInput = Console.ReadLine();
         var otherUpperCaseUserInput = otherUserInput.ToUpper();
 
         if (otherUpperCaseUserInput == "HIGHER")
         {
-          guessedNumbers.Add(startingGuessNumber);
-          //math
+          guessedNumbers.Add(newGuessNumber);
+          minMaxValueNumbers[0] = ((minMaxValueNumbers[0] + minMaxValueNumbers[1]) / 2) + 1;
         }
         else if (otherUpperCaseUserInput == "LOWER")
         {
-          guessedNumbers.Add(startingGuessNumber);
-          
+          guessedNumbers.Add(newGuessNumber);
+          minMaxValueNumbers[1] = ((minMaxValueNumbers[0] + minMaxValueNumbers[1]) / 2) - 1;
         }
         else if (otherUpperCaseUserInput == "CORRECT")
         {
-          guessedNumbers.Add(startingGuessNumber);
-          //Code here later to make a variable counting the list to be added to victory speech
-          Console.WriteLine("Hurrah! I am victorious and glorious!");
+          guessedNumbers.Add(newGuessNumber);
+          
+          var amountOfNumbersGuessed = guessedNumbers.Count; 
+          Console.WriteLine($"Hurrah! I am victorious and glorious! That only took me {amountOfNumbersGuessed} tries!");
           nextUserCommand = true;
         }
         else
