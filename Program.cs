@@ -6,12 +6,9 @@ namespace NumberGuesser
   class Program
   {
 
-    static string UnknownCommand(string prompt)
+    static void UnknownCommand()
     {
-      Console.WriteLine(prompt);
-      var userInput = Console.ReadLine();
-
-      return userInput;
+      Console.WriteLine("I'm sorry, I do not understand. Please enter a command I understand: ");
     }
 
     static void Main(string[] args)
@@ -21,13 +18,14 @@ namespace NumberGuesser
       Console.Write("Please think of number between 1-1024. Enter GO when you are ready: ");
       
       bool userCommand = false; 
-      var userInput = Console.ReadLine();
-      var upperCaseUserInput = userInput.ToUpper();
-
-      var firstWrongAnswer = UnknownCommand("I'm sorry, I do not understand. Please enter GO when you are ready: ");
+      //var userInput = Console.ReadLine();
+      //var upperCaseUserInput = userInput.ToUpper();
 
       while (userCommand == false)
       {
+        var userInput = Console.ReadLine();
+        var upperCaseUserInput = userInput.ToUpper();
+
         if ( upperCaseUserInput == "GO")
         {
           Console.WriteLine("Lets play!");
@@ -35,7 +33,7 @@ namespace NumberGuesser
         }
         else
         {
-          Console.WriteLine(firstWrongAnswer);
+          UnknownCommand();
         }
       }
       
