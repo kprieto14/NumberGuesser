@@ -9,7 +9,11 @@ namespace NumberGuesser
     static void Greeting()
     {
       Console.WriteLine("Hello! Welcome to my Guessing Game, where I will try to guess a number you're thinking about!");
-      Console.Write("Please think of a WHOLE number between 1-1024. Enter GO when you are ready: ");
+      /*Console.WriteLine("What is the max number you would like for me to guess? ");
+      var response = Console.ReadLine();
+      double parsedResponse = double.Parse(response);*/
+      
+      Console.Write($"Please think of a WHOLE number between 1 - 1024. Enter GO when you are ready: ");
 
       //Creates a boolean statement that will be used for the while statement below    
       bool userCommand = false; 
@@ -45,15 +49,15 @@ namespace NumberGuesser
       Greeting();
       
       //Creates two new lists to keep track of. The first list will keep track of the minimum and maximum value. The 2nd list keeps track of the guessed numbers to count later.
-      var minMaxValueNumbers = new List<int>() {1, 1024};
-      var guessedNumbers = new List<int>();
+      var minMaxValueNumbers = new List<double>() {1, 1024};
+      var guessedNumbers = new List<double>();
 
       //Start of formula to guess person's number
       bool nextUserCommand = false;
       while (nextUserCommand == false)
       {
         //Formula that calculates a new number to guess
-        var newGuessNumber = (minMaxValueNumbers[0] + minMaxValueNumbers[1]) / 2;
+        double newGuessNumber = Math.Round((minMaxValueNumbers[0] + minMaxValueNumbers[1]) / 2);
 
         Console.WriteLine($"Is the number you're thinking {newGuessNumber}?");
         Console.Write($"Please enter HIGHER, if the number you're thinking of is higher then {newGuessNumber}, LOWER if it is lower than {newGuessNumber}, or CORRECT if I am right: ");
@@ -64,18 +68,18 @@ namespace NumberGuesser
         if (otherUpperCaseUserInput == "HIGHER")
         {
           guessedNumbers.Add(newGuessNumber);
-          minMaxValueNumbers[0] = ((minMaxValueNumbers[0] + minMaxValueNumbers[1]) / 2) + 1;
+          minMaxValueNumbers[0] = Math.Round(((minMaxValueNumbers[0] + minMaxValueNumbers[1]) / 2) + 1);
         }
         else if (otherUpperCaseUserInput == "LOWER")
         {
           guessedNumbers.Add(newGuessNumber);
-          minMaxValueNumbers[1] = ((minMaxValueNumbers[0] + minMaxValueNumbers[1]) / 2) - 1;
+          minMaxValueNumbers[1] = Math.Round(((minMaxValueNumbers[0] + minMaxValueNumbers[1]) / 2) - 1);
         }
         else if (otherUpperCaseUserInput == "CORRECT")
         {
           guessedNumbers.Add(newGuessNumber);
-          
           var amountOfNumbersGuessed = guessedNumbers.Count; 
+
           Console.WriteLine($"Hurrah! I am victorious and glorious! That only took me {amountOfNumbersGuessed} tries!");
           nextUserCommand = true;
         }
