@@ -6,13 +6,24 @@ namespace NumberGuesser
   class Program
   {
     //Creates a greeting method and allows the user to type in what they want the max number of the computer to guess and returns that value entered by user to be re-used
-    static string Greeting(string prompt)
+    static double Greeting(string prompt)
     {
       Console.Write(prompt);
 
-      var response = Console.ReadLine();
-    
-      return response;
+      double response;
+      double backupNumber = 1024;
+
+      var isThisResponseValid = double.TryParse(Console.ReadLine(), out response);
+
+      if (isThisResponseValid)
+      {
+         return response;
+      }      
+      else
+      {
+        Console.WriteLine("I'm sorry, I do not understand. I will assume you mean 1024.");
+        return backupNumber;
+      }
     }
 
     //Creates a method that calls back when the user attempts to enter text not recognized by program and returns nothing.
@@ -30,8 +41,7 @@ namespace NumberGuesser
       var maxNumberResponse = Greeting("What is the max number you would like for me to guess? ");
 
       //Turns response from user about max number range into a double to be used in a list later for math, and then calculates how many tries should occur according to the Binary Search theory.
-      double parsedResponse = double.Parse(maxNumberResponse);
-      double estimatedNumberOfTries = Math.Ceiling(Math.Log2(parsedResponse));
+      double estimatedNumberOfTries = Math.Ceiling(Math.Log2(maxNumberResponse));
 
       Console.WriteLine($"That should only take me about {estimatedNumberOfTries} guesses!"); 
       Console.Write($"Please think of a WHOLE number between 1 - {maxNumberResponse}. Enter GO when you are ready: ");
@@ -55,9 +65,8 @@ namespace NumberGuesser
         }
       }
 
-
       //Creates two new lists to keep track of. The first list will keep track of the minimum and maximum value. The 2nd list keeps track of the guessed numbers to count later.
-      var minMaxValueNumbers = new List<double>() {1, parsedResponse};
+      var minMaxValueNumbers = new List<double>() {1, maxNumberResponse};
       var guessedNumbers = new List<double>();
 
       //Start of formula to guess person's number
@@ -104,7 +113,7 @@ namespace NumberGuesser
         }
         else
         {
-          var answer = UnknownCommand("I am not sure what you are saying. Please enter if some number is HIGHER, LOWER, or CORRECT: ");
+          var answer = UnknownCommand($"I am not sure what you are saying. Please enter a valid response.");
         }
       }
     }
@@ -123,10 +132,12 @@ namespace NumberGuesser
 
         if (repeatResponseUpper == "YES")
         {
+          //Use this line to add amountof#guessed into a list before starting program over. Also create the list too!
           guessingGame();
         }
         else if (repeatResponseUpper == "NO")
         {
+          //Use this line to calculate average of list from amount of games played. Might need to use FOR loop to go through list. 
           Console.Write("It was fun to play with you! Come back anytime!");
           playAgain = false;
         }

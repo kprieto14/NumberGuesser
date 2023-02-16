@@ -19,6 +19,7 @@ method VictorySpeech
 method UnknownCommand 
 bool guessednumber = False; 
 Will need Ints (numbers trying to be guessed and compared), strings (to read what the user adds), perhaps a list for keeping track of guesses, methods to organize code 
+Found out about the binary search algo that will be used to calculate new searches
 
 D
 
