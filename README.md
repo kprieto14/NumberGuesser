@@ -36,7 +36,7 @@ Console.Write(prompt user to guess, tell user to enter GO when ready);
 Console.ReadLine(userInput);
     If user enters Go, continue to next step to initiate while loop. else run UnknownCommand method
 
-While bool guessedNumber = False; begin below; actually lets do a switch statement
+While bool guessedNumber = False; begin below
     generateRandomNumber as a starting point, display code that reads, is your number {guessedNumber}, please enter HIGHER, LOWER, or CORRECT
     readLine();
         if (HIGHER)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace NumberGuesser
@@ -35,9 +36,10 @@ namespace NumberGuesser
     }
 
     //The method that houses all the code I worked on before to be repeated if the user wants to re-start the game.
-    static void guessingGame()
+    static double GuessingGame(string prompt)
     {
       //Starts the program with a greeting to let the user know its purpose and read their response
+      Console.WriteLine(prompt);
       var maxNumberResponse = Greeting("What is the max number you would like for me to guess? ");
 
       //Turns response from user about max number range into a double to be used in a list later for math, and then calculates how many tries should occur according to the Binary Search theory.
@@ -97,17 +99,17 @@ namespace NumberGuesser
         else if (otherUpperCaseUserInput == "CORRECT")
         {
           guessedNumbers.Add(newGuessNumber);
-          var amountOfNumbersGuessed = guessedNumbers.Count; 
+          var amountOfNumbersTried = guessedNumbers.Count; 
 
           //Nested if statement for fun, compares if program accurately guessed how long it would take to guess and curates a response accordingly.
-          if (estimatedNumberOfTries == amountOfNumbersGuessed)
+          if (estimatedNumberOfTries == amountOfNumbersTried)
           {
-            Console.WriteLine($"Hurrah! I am victorious and glorious! Looks like I was right! That only took me {amountOfNumbersGuessed} tries!");
+            Console.WriteLine($"Hurrah! I am victorious and glorious! Looks like I was right! That only took me {amountOfNumbersTried} tries!");
             nextUserCommand = true;
           }
           else
           {
-            Console.WriteLine($"Uh oh, looks like I was off by a little bit! That actually took me {amountOfNumbersGuessed} tries!");
+            Console.WriteLine($"Uh oh, looks like I was off by a little bit! That actually took me {amountOfNumbersTried} tries!");
             nextUserCommand = true;
           }
         }
@@ -116,11 +118,18 @@ namespace NumberGuesser
           var answer = UnknownCommand($"I am not sure what you are saying. Please enter a valid response.");
         }
       }
+
+      double amountOfNumbersGuessed = guessedNumbers.Count;
+      return amountOfNumbersGuessed;
     }
+
     static void Main(string[] args)
     {
-      Console.WriteLine("Hello! Welcome to my Guessing Game, where I will try to guess a number you're thinking about!");
-      guessingGame();
+      //Created a list that will keep track of all the tries a user makes
+      var numbersGuessedCount = new List<double>();
+
+      double startGame = GuessingGame("Hello! Welcome to my Guessing Game, where I will try to guess a number you're thinking about!");
+      numbersGuessedCount.Add(startGame);
 
       bool playAgain = true;
       while (playAgain == true)
@@ -132,13 +141,12 @@ namespace NumberGuesser
 
         if (repeatResponseUpper == "YES")
         {
-          //Use this line to add amountof#guessed into a list before starting program over. Also create the list too!
-          guessingGame();
+          double replayCount = GuessingGame("Let's play again!");
+          numbersGuessedCount.Add(replayCount);
         }
         else if (repeatResponseUpper == "NO")
         {
-          //Use this line to calculate average of list from amount of games played. Might need to use FOR loop to go through list. 
-          Console.Write("It was fun to play with you! Come back anytime!");
+          Console.Write("It was fun to play with you! Come back anytime! ");
           playAgain = false;
         }
         else 
@@ -146,6 +154,9 @@ namespace NumberGuesser
           var answer = UnknownCommand("I'm sorry, I do not understand.");
         }
       }
+ 
+      double average = Queryable.Average(numbersGuessedCount.AsQueryable());
+      Console.WriteLine($"BTW, my average amount of tries before guessing correctly was {average}. Isn't that neat :)");
     }
   }
 }
